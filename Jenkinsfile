@@ -1,16 +1,26 @@
 pipeline {
-
+  //chạy docker trên mọi stage
+  //none , any, docker {
+  //   image 'python:3.8-slim-buster'
+  //   args '-u 0:0 -v /tmp:/root/.cache'
+  // }
   agent none
 
+  //biến môi trường
   environment {
-    DOCKER_IMAGE = "nhtua/flask-docker"
+    DOCKER_IMAGE = "lehuuduyen96/jenkins-first"
   }
 
   stages {
+    // chạy test:
+    // lúc push lên github , tạo máy docker image python
+    // chạy các lệnh steps
     stage("Test") {
       agent {
           docker {
             image 'python:3.8-slim-buster'
+            // -u 0:0 là user root
+            // mount lưu cache để mở lại nhanh
             args '-u 0:0 -v /tmp:/root/.cache'
           }
       }
@@ -20,7 +30,7 @@ pipeline {
         sh "poetry run pytest"
       }
     }
-
+    //
     // stage("build") {
     //   agent { node {label 'master'}}
     //   environment {
