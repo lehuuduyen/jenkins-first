@@ -17,6 +17,8 @@ pipeline {
     // chạy các lệnh steps
     stage("Test") {
       agent {
+        // -u 0:0 là user root
+        // mount lưu cache để mở lại nhanh hơn
           docker {
             image 'python:3.8-slim-buster'
             args '-u 0:0 -v /tmp:/root/.cache'
